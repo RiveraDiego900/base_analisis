@@ -1,9 +1,9 @@
 -- Active: 1769988186095@@localhost@3306@sistema_escuela
-create database sistema_escuela;
 
+create database sistema_escuela;
 use sistema_escuela;
 
-create table admins(
+create table sys_admins(
 id_admin int not null primary key AUTO_INCREMENT, 
 nombres_admin varchar (50) not null ,
 apellidos varchar(50) not null
@@ -32,7 +32,7 @@ id_concepto_p int not null primary key AUTO_INCREMENT ,
 descrpcion varchar(30) not null   
 );
 create table comprobantes (
-id_comprobante int not null primary key AUTO_INCREMENT, 
+id_comprobante int not null primary key, 
 tipo_pago int not null ,
 fecha_carga date not null ,
 estudiante_id int not null , 
@@ -55,13 +55,22 @@ constraint pago_p  foreign key (tipo_pago) references tipo_pagos(id_pago),
 constraint fk_concepto_pago_p  foreign key (concepto_pago_id) references concepto_pagos(id_concepto_p)
 
 );
-
+create table usuarios(
+dni int not null primary key AUTO_INCREMENT,
+nombres_usuario varchar(50) not null,
+apellidos_usuario varchar(50) not null,
+contrasena varchar(50) not null
+);
 create table orden_pago (
     orden_pago_id int not null PRIMARY key ,
     pasarela_id int null ,
     estudiante_id int not null ,
-    cliente varchar(50) not null ,
-);
+    usuario_dni int not null ,
+    constraint fk_orden_pago_pasarela FOREIGN key (pasarela_id) references pasarela(id_pasarela),
+constraint fk_orden_pago_estudiante FOREIGN key (estudiante_id) references estudiante(nro_cedula),
+constraint fk_orden_pago_cliente FOREIGN key (usuario_dni) references usuarios(dni)
+); 
+
 
  create table facturacion (
  factura_id int not null primary key AUTO_INCREMENT, 
@@ -69,11 +78,13 @@ create table orden_pago (
  fecha_facturacion date not null , 
  autor int not null , 
  descripcion varchar(80) not null,
- tipo_pago int not null ,   -- por si fue por comprobante o de manera tradicicional 
+ tipo_pago int not null ,   -- por si fue por comprobante o de manera tradicional 
 constraint fk_factura_orden FOREIGN key (numero_orden) REFERENCES orden_pago(orden_pago_id),
-constraint fk_factura_admin FOREIGN key (autor) REFERENCES admins(id_admin),
+constraint fk_factura_admin FOREIGN key (autor) REFERENCES sys_admins(id_admin),
 constraint fk_factura_pago FOREIGN key (tipo_pago) REFERENCES tipo_pagos(id_pago)
+
 
 );
 
--- drop DATABASE sistema_escuela;
+drop DATABASE sistema_escuela;
+

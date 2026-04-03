@@ -4,7 +4,7 @@ create database sistema_escuela;
 use sistema_escuela;
 
 create table admins(
-id_admin int not null primary key , 
+id_admin int not null primary key AUTO_INCREMENT, 
 nombres_admin varchar (50) not null ,
 apellidos varchar(50) not null
 );
@@ -23,16 +23,16 @@ constraint check_estado check (estado_pago in ('PAGADO' , 'PENDIENTE DE REVISION
 );
 
 create table tipo_pagos (
-id_pago int not null primary key,
+id_pago int not null primary key AUTO_INCREMENT,
 nombre_pago varchar(20) 
 );
 
 create table concepto_pagos (  -- por si se pagan libros , utiles o matricula
-id_concepto_p int not null primary key ,
+id_concepto_p int not null primary key AUTO_INCREMENT ,
 descrpcion varchar(30) not null   
 );
 create table comprobantes (
-id_comprobante int not null primary key, 
+id_comprobante int not null primary key AUTO_INCREMENT, 
 tipo_pago int not null ,
 fecha_carga date not null ,
 estudiante_id int not null , 

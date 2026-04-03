@@ -8,6 +8,7 @@ id_admin int not null primary key AUTO_INCREMENT,
 nombres_admin varchar (50) not null ,
 apellidos varchar(50) not null
 );
+alter table  sys_admins add column contrasena varchar(50) not null ;
 
 create table estudiante(
 nro_cedula int not null primary key,
@@ -62,7 +63,7 @@ apellidos_usuario varchar(50) not null,
 contrasena varchar(50) not null
 );
 create table orden_pago (
-    orden_pago_id int not null PRIMARY key ,
+    orden_pago_id int not null PRIMARY key AUTO_INCREMENT,
     pasarela_id int null ,
     estudiante_id int not null ,
     usuario_dni int not null ,
@@ -86,5 +87,13 @@ constraint fk_factura_pago FOREIGN key (tipo_pago) REFERENCES tipo_pagos(id_pago
 
 );
 
-drop DATABASE sistema_escuela;
+create table usuariosxestudiantes (
+    usuario_dni int not null ,
+    estudiante_id int not null ,
+    constraint pk_usuario_estudiante PRIMARY key (usuario_dni, estudiante_id),
+    constraint fk_usuario_estudiante_usuario FOREIGN key (usuario_dni) references usuarios(dni),
+    constraint fk_usuario_estudiante_estudiante FOREIGN key (estudiante_id) references estudiante(nro_cedula)
+);
+
+--drop DATABASE sistema_escuela;
 
